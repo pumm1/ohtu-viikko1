@@ -31,6 +31,36 @@ public class VarastoTest {
     }
 
     @Test
+    public void hassuParametriVarastolle() {
+        varasto = new Varasto(10, 10);
+        assertEquals(10, varasto.getTilavuus(), vertailuTarkkuus);
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+
+        varasto = new Varasto(0, -1);
+        assertEquals(0, varasto.getTilavuus(), vertailuTarkkuus);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+
+        varasto = new Varasto(10, 11);
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+        
+        varasto = new Varasto(0);
+        assertEquals(0, varasto.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void hassuSaldonLisays() {
+        varasto = new Varasto(10);
+        double saldo = varasto.getSaldo();
+        varasto.lisaaVarastoon(-1);
+        assertEquals(saldo, varasto.getSaldo(), vertailuTarkkuus);
+
+        varasto.lisaaVarastoon(5);
+        saldo = varasto.getSaldo();
+        varasto.lisaaVarastoon(6);
+        assertEquals(saldo + 5, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
     public void lisaysLisaaSaldoa() {
         varasto.lisaaVarastoon(8);
 
@@ -54,6 +84,18 @@ public class VarastoTest {
 
         assertEquals(2, saatuMaara, vertailuTarkkuus);
     }
+    
+    @Test
+    public void otaVarastostaJuttuja(){
+        varasto = new Varasto(10, 10);
+        varasto.otaVarastosta(-1);
+        double saldo = varasto.getSaldo();
+        assertEquals(10, saldo, vertailuTarkkuus);
+        
+        varasto.otaVarastosta(11);
+        saldo = varasto.getSaldo();
+        assertEquals(0, saldo, vertailuTarkkuus);
+    }
 
     @Test
     public void ottaminenLisääTilaa() {
@@ -63,6 +105,20 @@ public class VarastoTest {
 
         // varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void toStringToemiipi(){
+        varasto = new Varasto(10);
+        double saldo = varasto.getSaldo();
+        double mahtuu = varasto.paljonkoMahtuu();
+        boolean toimii = false;
+        String t = varasto.toString();
+        String s = "saldo = " + saldo + ", vielä tilaa " + mahtuu;
+        if(s.equals(t)){
+            toimii=true;
+        }
+        assertEquals(true, toimii);
     }
 
 }
